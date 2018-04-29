@@ -1,0 +1,23 @@
+{
+    "name": "awaluk/nextbike-api-client",
+    "description": "Client to get some data from Nextbike API",
+    "keywords": ["nextbike", "bike", "api"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arkadiusz Waluk",
+            "email": "arkadiusz@waluk.pl",
+            "homepage": "https://waluk.pl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "awaluk\\NextbikeClient\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">= 7",
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}
