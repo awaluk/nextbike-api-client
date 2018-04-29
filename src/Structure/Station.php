@@ -2,6 +2,8 @@
 
 namespace awaluk\NextbikeClient\Structure;
 
+use awaluk\NextbikeClient\Collection\BikeCollection;
+
 class Station extends AbstractStructure
 {
     public function getId(): int
@@ -62,5 +64,10 @@ class Station extends AbstractStructure
     public function getTerminalType(): string
     {
         return $this->get('terminal_type');
+    }
+
+    public function getBikeCollection(): BikeCollection
+    {
+        return new BikeCollection($this->get('bike_list'));
     }
 }
