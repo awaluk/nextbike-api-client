@@ -2,6 +2,8 @@
 
 namespace awaluk\NextbikeClient\Structure;
 
+use awaluk\NextbikeClient\Collection\StationCollection;
+
 class City extends AbstractStructure
 {
     public function getId(): int
@@ -42,5 +44,10 @@ class City extends AbstractStructure
     public function getAvailableBikesAmount(): int
     {
         return $this->get('available_bikes');
+    }
+
+    public function getStationCollection(): StationCollection
+    {
+        return new StationCollection($this->get('places'));
     }
 }
