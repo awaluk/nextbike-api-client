@@ -4,23 +4,28 @@ namespace awaluk\NextbikeClient;
 
 use awaluk\NextbikeClient\Collection\SystemCollection;
 use awaluk\NextbikeClient\Exception\ResponseException;
-use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
-class Client
+class Nextbike
 {
-    const API_BASE_URL = 'https://api.nextbike.net/maps/nextbike-live.json';
+    const HTTP_STATUS_OK = 200;
 
+    private $apiUrl = 'https://api.nextbike.net/maps/nextbike-live.json';
     private $httpClient;
 
-    public function __construct()
+    public function __construct(Client $httpClient, string $apiUrl = null)
     {
-        $this->httpClient = new HttpClient();
+        $this->httpClient = $httpClient;
+
+        if (!empty($apiUrl)) {
+            $this->apiUrl = $apiUrl;
+        }
     }
 
     public function getSystems(): SystemCollection
     {
-        $response = $this->httpClient->get(self::API_BASE_URL);
+        $response = $this->httpClient->get($this->apiUrl);
         $responseData = $this->handleResponse($response);
 
         return new SystemCollection($responseData->countries);
@@ -28,8 +33,8 @@ class Client
 
     private function handleResponse(ResponseInterface $response): \stdClass
     {
-        if ($response->getStatusCode() !== 200) {
-            throw new ResponseException('Error while get data from Nextbike API');
+        if ($response->getStatusCode() !== self::HTTP_STATUS_OK) {
+            throw new ResponseException('Error while getting data from Nextbike API');
         }
 
         return json_decode($response->getBody());
