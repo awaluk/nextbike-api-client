@@ -2,6 +2,8 @@
 
 namespace awaluk\NextbikeClient\Structure;
 
+use awaluk\NextbikeClient\Collection\CityCollection;
+
 class System extends AbstractStructure
 {
     public function getName(): string
@@ -64,6 +66,11 @@ class System extends AbstractStructure
         return $this->get('website');
     }
 
+    public function getBookedBikesAmount(): int
+    {
+        return $this->get('booked_bikes');
+    }
+
     public function getAllBikesAmount(): int
     {
         return $this->get('set_point_bikes');
@@ -72,5 +79,10 @@ class System extends AbstractStructure
     public function getAvailableBikesAmount(): int
     {
         return $this->get('available_bikes');
+    }
+
+    public function getCityCollection(): CityCollection
+    {
+        return new CityCollection($this->get('cities'));
     }
 }

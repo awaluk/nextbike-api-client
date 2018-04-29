@@ -2,8 +2,8 @@
 
 namespace awaluk\NextbikeClient;
 
+use awaluk\NextbikeClient\Collection\SystemCollection;
 use awaluk\NextbikeClient\Exception\ResponseException;
-use awaluk\NextbikeClient\Structure\System;
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,21 +18,12 @@ class Client
         $this->httpClient = new HttpClient();
     }
 
-    /**
-     * @return System[]
-     * @throws ResponseException
-     */
-    public function getSystems(): array
+    public function getSystems(): SystemCollection
     {
         $response = $this->httpClient->get(self::API_BASE_URL);
         $responseData = $this->handleResponse($response);
 
-        $systems = [];
-        foreach ($responseData->countries as $systemData) {
-            $systems[] = new System($systemData);
-        }
-
-        return $systems;
+        return new SystemCollection($responseData->countries);
     }
 
     private function handleResponse(ResponseInterface $response): \stdClass
