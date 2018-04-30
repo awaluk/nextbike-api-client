@@ -2,6 +2,7 @@
 
 namespace awaluk\NextbikeClient\Tests;
 
+use awaluk\NextbikeClient\Collection\CityCollection;
 use awaluk\NextbikeClient\Collection\SystemCollection;
 use awaluk\NextbikeClient\Exception\CityNotExistsException;
 use awaluk\NextbikeClient\Exception\ResponseException;
@@ -97,5 +98,41 @@ class NextbikeTest extends TestCase
 
         $nextbike = new Nextbike($httpClient);
         $nextbike->getCity(1);
+    }
+
+    public function testGetAllCities()
+    {
+        $httpClient = $this->getMockBuilder(HttpClient::class)
+            ->setMethods(['get'])
+            ->getMock();
+
+        $httpClient->method('get')
+            ->willReturn(new Response(200, [], json_encode([
+                'countries' => [
+                    [
+                        'cities' => [
+                            [
+                                'name' => 'test1'
+                            ],
+                            [
+                                'name' => 'test2'
+                            ],
+                        ],
+                    ],
+                    [
+                        'cities' => [
+                            [
+                                'name' => 'test3'
+                            ]
+                        ],
+                    ],
+                ],
+            ])));
+
+        $nextbike = new Nextbike($httpClient);
+        $cities = $nextbike->getCities();
+
+        $this->assertInstanceOf(CityCollection::class, $cities);
+        $this->assertEquals(3, $cities->count());
     }
 }

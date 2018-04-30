@@ -10,11 +10,15 @@ abstract class AbstractCollection
     protected $dataClass;
     protected $data = [];
 
-    public function __construct(array $data)
+    public function __construct(array $data, bool $parse = true)
     {
         $this->originalData = $data;
 
-        $this->parseData();
+        if ($parse) {
+            $this->parseData();
+        } else {
+            $this->data = $data;
+        }
     }
 
     public function isEmpty(): bool

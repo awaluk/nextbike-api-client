@@ -2,8 +2,10 @@
 
 namespace awaluk\NextbikeClient;
 
+use awaluk\NextbikeClient\Collection\CityCollection;
 use awaluk\NextbikeClient\Collection\SystemCollection;
 use awaluk\NextbikeClient\Exception\ResponseException;
+use awaluk\NextbikeClient\Parser\AllCities;
 use awaluk\NextbikeClient\Parser\CityById;
 use awaluk\NextbikeClient\Structure\City;
 use GuzzleHttp\Client;
@@ -31,6 +33,16 @@ class Nextbike
         $responseData = $this->handleResponse($response);
 
         return new SystemCollection($responseData->countries);
+    }
+
+    public function getCities(): CityCollection
+    {
+        $response = $this->httpClient->get($this->apiUrl);
+        $responseData = $this->handleResponse($response);
+
+        $parser = new AllCities(new SystemCollection($responseData->countries));
+
+        return $parser->parse();
     }
 
     public function getCity(int $cityId): City
