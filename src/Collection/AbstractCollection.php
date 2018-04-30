@@ -32,6 +32,11 @@ abstract class AbstractCollection
         return $this->data;
     }
 
+    public function getFirst()
+    {
+        return $this->data[0] ?? null;
+    }
+
     protected function parseData()
     {
         if (empty($this->dataClass)) {

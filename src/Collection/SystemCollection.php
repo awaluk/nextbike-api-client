@@ -6,6 +6,7 @@ use awaluk\NextbikeClient\Structure\System;
 
 /**
  * @method System[] getAll()
+ * @method null|System getFirst()
  */
 class SystemCollection extends AbstractCollection
 {

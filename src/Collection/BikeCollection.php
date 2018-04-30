@@ -6,6 +6,7 @@ use awaluk\NextbikeClient\Structure\Bike;
 
 /**
  * @method Bike[] getAll()
+ * @method null|Bike getFirst()
  */
 class BikeCollection extends AbstractCollection
 {
