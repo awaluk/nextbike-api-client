@@ -81,6 +81,10 @@ foreach ($city->getStationCollection()->getAll() as $station) {
 }
 ```
 
+## Contributing rules
+
+Do you want to help develop this library? See [CONTRIBUTING file](https://github.com/awaluk/nextbike-api-client/blob/master/CONTRIBUTING.md).
+
 ## License
 
 [MIT](https://github.com/awaluk/nextbike-api-client/blob/master/LICENSE)
