@@ -2,13 +2,19 @@
 
 namespace awaluk\NextbikeClient\Collection;
 
+use LogicException;
+
 abstract class AbstractCollection
 {
-    protected $data;
+    protected $originalData;
+    protected $dataClass;
+    protected $data = [];
 
     public function __construct(array $data)
     {
-        $this->data = $data;
+        $this->originalData = $data;
+
+        $this->parseData();
     }
 
     public function isEmpty(): bool
@@ -21,5 +27,19 @@ abstract class AbstractCollection
         return count($this->data);
     }
 
-    abstract public function getAll(): array;
+    public function getAll(): array
+    {
+        return $this->data;
+    }
+
+    protected function parseData()
+    {
+        if (empty($this->dataClass)) {
+            throw new LogicException('Collection must have not empty data class');
+        }
+
+        foreach ($this->originalData as $data) {
+            $this->data[] = new $this->dataClass($data);
+        }
+    }
 }

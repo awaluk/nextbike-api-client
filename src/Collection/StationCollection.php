@@ -4,19 +4,10 @@ namespace awaluk\NextbikeClient\Collection;
 
 use awaluk\NextbikeClient\Structure\Station;
 
+/**
+ * @method Station[] getAll()
+ */
 class StationCollection extends AbstractCollection
 {
-    /**
-     * @return Station[]
-     */
-    public function getAll(): array
-    {
-        $stations = [];
-
-        foreach ($this->data as $station) {
-            $stations[] = new Station($station);
-        }
-
-        return $stations;
-    }
+    protected $dataClass = Station::class;
 }
