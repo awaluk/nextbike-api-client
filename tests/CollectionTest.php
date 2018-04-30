@@ -33,6 +33,22 @@ class CollectionTest extends TestCase
         $this->assertEmpty($systems);
     }
 
+    public function testGetFirst()
+    {
+        $class1 = new \stdClass();
+        $class1->name = 'test1';
+
+        $class2 = new \stdClass();
+        $class2->name = 'test2';
+
+        $systemCollection = new SystemCollection([$class1, $class2]);
+
+        $system = $systemCollection->getFirst();
+
+        $this->assertInstanceOf(System::class, $system);
+        $this->assertEquals('test1', $system->getName());
+    }
+
     public function testIsEmpty()
     {
         $systemCollection = new SystemCollection([]);

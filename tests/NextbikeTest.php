@@ -3,9 +3,11 @@
 namespace awaluk\NextbikeClient\Tests;
 
 use awaluk\NextbikeClient\Collection\SystemCollection;
+use awaluk\NextbikeClient\Exception\CityNotExistsException;
 use awaluk\NextbikeClient\Exception\ResponseException;
 use awaluk\NextbikeClient\HttpClient;
 use awaluk\NextbikeClient\Nextbike;
+use awaluk\NextbikeClient\Structure\City;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -42,5 +44,58 @@ class NextbikeTest extends TestCase
 
         $nextbike = new Nextbike($httpClient);
         $nextbike->getSystems();
+    }
+
+    public function testGetCity()
+    {
+        $httpClient = $this->getMockBuilder(HttpClient::class)
+            ->setMethods(['get'])
+            ->getMock();
+
+        $httpClient->method('get')
+            ->willReturn(new Response(200, [], json_encode([
+                'countries' => [
+                    [
+                        'cities' => [],
+                    ],
+                    [
+                        'cities' => [
+                            [
+                                'name' => 'test'
+                            ]
+                        ],
+                    ],
+                ],
+            ])));
+
+        $nextbike = new Nextbike($httpClient);
+        $city = $nextbike->getCity(1);
+
+        $this->assertInstanceOf(City::class, $city);
+        $this->assertEquals('test', $city->getName());
+    }
+
+    public function testGetCityWhenNotExists()
+    {
+        $this->expectException(CityNotExistsException::class);
+
+        $httpClient = $this->getMockBuilder(HttpClient::class)
+            ->setMethods(['get'])
+            ->getMock();
+
+        $httpClient->method('get')
+            ->willReturn(new Response(200, [], json_encode([
+                'countries' => [
+                    [
+                        'cities' => [],
+                    ],
+                    [
+                        'cities' => [],
+                    ],
+                ],
+            ])));
+
+        $nextbike = new Nextbike($httpClient);
+        $nextbike->getCity(1);
     }
 }
