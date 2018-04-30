@@ -1,5 +1,7 @@
 # Nextbike API Client
 
+[![Build Status](https://travis-ci.org/awaluk/nextbike-api-client.svg?branch=master)](https://travis-ci.org/awaluk/nextbike-api-client)
+
 Client to get some data from Nextbike API.
 
 This library require **PHP version >= 7**.
