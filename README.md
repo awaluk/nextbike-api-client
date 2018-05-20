@@ -6,6 +6,12 @@ Client to get some data from Nextbike API.
 
 This library require **PHP version >= 7**.
 
+## Installation
+
+```
+composer require awaluk/nextbike-api-client
+```
+
 ## Usage
 
 To use, please include Composer autoloader. Next, create HTTP client (based on [Guzzle](https://github.com/guzzle/guzzle)) and `Nextbike` class instance.
